@@ -16,7 +16,7 @@ import { PubSub } from "graphql-subscriptions";
   const app = express();
   const httpServer = createServer(app);
 
-  const port = process.env.PORT || 5002;
+  const port = process.env.PORT || 5050;
 
   const uri = config.get("mdb") as string;
 

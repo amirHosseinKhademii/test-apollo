@@ -1,4 +1,4 @@
 {
-  "mdb": "mongodb://admin:password@localhost:27017",
+  "mdb": "mongodb://admin:password@localhost:4000",
   "secretKey": "some very secret key"
 }

@@ -6,7 +6,7 @@ import "cross-fetch/polyfill";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 
 const httpLink = new BatchHttpLink({
-  uri: "http://localhost:5002",
+  uri: "http://localhost:5050",
   batchMax: 5,
   batchInterval: 20,
 });
