@@ -1,0 +1,19 @@
+type Story {
+  id: ID
+  user: User
+  title: String!
+}
+
+type Stories {
+  prev: Int
+  next: Int
+  data: [Story]
+}
+
+type Query {
+  userStories(page: Int, title: String, userId: ID!): Stories
+}
+
+type Mutation {
+  addStory(title: String!): Story
+}

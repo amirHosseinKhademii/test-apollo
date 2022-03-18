@@ -5,3 +5,5 @@
 # import  Query from './todo/type-defs.graphql'
 # import  Mutation from './todo/type-defs.graphql'
 # import  Subscription from './todo/type-defs.graphql'
+# import  Query from './story/type-defs.graphql'
+# import  Mutation from './story/type-defs.graphql'
