@@ -18,6 +18,7 @@ type Todos {
 
 type Query {
   todos(page: Int, title: String): Todos
+  userTodos(page: Int, title: String, userId: ID!): Todos
 }
 
 type Mutation {

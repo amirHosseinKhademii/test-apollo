@@ -41,6 +41,41 @@ export const todoResolvers = {
         return error;
       }
     },
+    userTodos: async (
+      _: any,
+      {
+        page = 0,
+        title,
+        userId,
+      }: { page: number; title: string; userId: string }
+    ) => {
+      try {
+        const todos = await TodoModel.find({
+          user: userId,
+          ...(title && { title: { $regex: title, $options: "i" } }),
+        })
+          .limit(5)
+          .skip(page * 5)
+          .populate("user")
+          .sort({ title: -1 });
+
+        if (todos.length === 5)
+          return {
+            prev: page === 0 ? null : page - 1,
+            next: page + 1,
+            data: todos,
+          };
+        else
+          return {
+            prev: page === 0 ? null : page - 1,
+            next: null,
+            data: todos,
+          };
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    },
   },
   Mutation: {
     addTodo: async (_: any, args: TTodo, context: TContext) => {

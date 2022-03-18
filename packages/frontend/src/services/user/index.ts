@@ -10,3 +10,16 @@ export const USER = gql`
     }
   }
 `;
+
+export const USERS = gql`
+  query Users($offset: Int, $limit: Int) {
+    users(offset: $offset, limit: $limit) {
+      prev
+      next
+      data {
+        id
+        user_name
+      }
+    }
+  }
+`;

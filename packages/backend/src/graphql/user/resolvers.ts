@@ -6,12 +6,26 @@ import type { TUser } from "../../types/user";
 
 export const userResolvers = {
   Query: {
-    users: async () => {
+    users: async (
+      _: any,
+      { offset = 0, limit = 3 }: { offset: number; limit: number }
+    ) => {
       try {
-        const users = await UserModel.find();
-        // .populate("shops")
-        // .populate("following");
-        return users;
+        const users = await UserModel.find()
+          .limit(limit)
+          .skip(offset * 3);
+        if (users.length < 3)
+          return {
+            prev: offset === 0 ? null : offset - 1,
+            next: null,
+            data: users,
+          };
+        else
+          return {
+            prev: offset === 0 ? null : offset - 1,
+            next: offset + 1,
+            data: users,
+          };
       } catch (error) {
         console.error(error);
         return;
@@ -20,8 +34,6 @@ export const userResolvers = {
     user: async (_: any, args: { userId: string }) => {
       try {
         const user = await UserModel.findById(args.userId);
-        // .populate("shops")
-        // .populate("following");
         return user;
       } catch (error) {
         console.error(error);

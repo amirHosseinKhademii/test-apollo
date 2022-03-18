@@ -4,6 +4,7 @@ import { setContext } from "@apollo/client/link/context";
 import "cross-fetch/polyfill";
 
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 
 const httpLink = new BatchHttpLink({
   uri: "http://localhost:5050",
@@ -26,5 +27,13 @@ const authLink = setContext((_, { headers }) => {
 
 export const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          // users: offsetLimitPagination(),
+        },
+      },
+    },
+  }),
 });

@@ -8,8 +8,14 @@ type User {
   token: String
 }
 
+type Users {
+  prev: Int
+  next: Int
+  data: [User!]
+}
+
 type Query {
-  users: [User]
+  users(offset: Int, limit: Int): Users!
   user(userId: ID!): User!
 }
 
