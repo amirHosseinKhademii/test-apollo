@@ -3,6 +3,6 @@ import { TUser } from "./user";
 
 export type TStory = {
   id?: string;
-  user: Types.ObjectId;
+  todo: Types.ObjectId;
   title: string;
 };

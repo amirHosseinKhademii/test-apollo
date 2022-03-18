@@ -1,22 +1,42 @@
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
+import { USER_STORIES } from "services/story";
 import { USER_TODOS } from "services/todo";
 import { USERS } from "services/user";
 import { classNames } from "utils";
 
-const UserTodos = ({ userId }: { userId: string }) => {
-  const { data, loading } = useQuery(USER_TODOS, { variables: { userId } });
-  console.log(data, loading);
+const UserStories = ({ todoId }: { todoId: string }) => {
+  const { data, loading } = useQuery(USER_STORIES, { variables: { todoId } });
 
   return (
     <div
       className={classNames(
-        "w-full flex flex-col space-y-2 bg-cyan-300 p-3 min-h-[100px]",
+        "w-full flex flex-col space-y-2 bg-teal-500 p-3 min-h-[100px] rounded",
+        loading && "animate-pulse bg-amber-600"
+      )}
+    >
+      {data?.userStories?.data?.map((story: any) => (
+        <div key={story.id}>{story.title}</div>
+      ))}
+    </div>
+  );
+};
+
+const UserTodos = ({ userId }: { userId: string }) => {
+  const { data, loading } = useQuery(USER_TODOS, { variables: { userId } });
+
+  return (
+    <div
+      className={classNames(
+        "w-full flex flex-col space-y-2 bg-cyan-300 p-3 min-h-[100px] rounded",
         loading && "animate-pulse bg-red-300"
       )}
     >
       {data?.userTodos?.data?.map((todo: any) => (
-        <div key={todo.id}>{todo.title}</div>
+        <div className="w-full flex flex-col space-y-2" key={todo.id}>
+          <div>{todo.title}</div>
+          <UserStories todoId={todo.id} />
+        </div>
       ))}
     </div>
   );
@@ -46,7 +66,6 @@ const Users = () => {
     notifyOnNetworkStatusChange: true,
     variables: { limit: 3, offset: 0 },
   });
-  console.log(data);
 
   const onFetchMore = () =>
     fetchMore({
@@ -105,10 +124,10 @@ const View = () => {
   );
 };
 
-export default View;
-
 const Skeleton = () => {
   return (
     <div className="bg-yellow-300 w-full rounded p-6 flex flex-col space-y-2 shadow-lg animate-pulse min-h-[100px]"></div>
   );
 };
+
+export default View;

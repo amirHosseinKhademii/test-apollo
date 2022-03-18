@@ -1,6 +1,6 @@
 type Story {
   id: ID
-  user: User
+  todo: Todo
   title: String!
 }
 
@@ -11,9 +11,9 @@ type Stories {
 }
 
 type Query {
-  userStories(page: Int, title: String, userId: ID!): Stories
+  userStories(page: Int, title: String, todoId: ID!): Stories
 }
 
 type Mutation {
-  addStory(title: String!): Story
+  addStory(title: String!, todo: ID!): Story
 }

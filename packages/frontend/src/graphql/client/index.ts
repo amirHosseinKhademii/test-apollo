@@ -8,7 +8,7 @@ import { offsetLimitPagination } from "@apollo/client/utilities";
 
 const httpLink = new BatchHttpLink({
   uri: "http://localhost:5050",
-  batchMax: 5,
+  batchMax: 30,
   batchInterval: 20,
 });
 

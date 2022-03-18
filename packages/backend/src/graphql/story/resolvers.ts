@@ -1,7 +1,5 @@
 import { StoryModel } from "../../models";
-import { TContext } from "../../types/apollo";
 import type { TStory } from "../../types/story";
-import { auth } from "../../utils";
 
 export const storyResolvers = {
   Query: {
@@ -10,17 +8,17 @@ export const storyResolvers = {
       {
         page = 0,
         title,
-        userId,
-      }: { page: number; title: string; userId: string }
+        todoId,
+      }: { page: number; title: string; todoId: string }
     ) => {
       try {
         const stories = await StoryModel.find({
-          user: userId,
+          todo: todoId,
           ...(title && { title: { $regex: title, $options: "i" } }),
         })
           .limit(5)
           .skip(page * 5)
-          .populate("user")
+          .populate("todo")
           .sort({ title: -1 });
 
         if (stories.length === 5)
@@ -42,12 +40,11 @@ export const storyResolvers = {
     },
   },
   Mutation: {
-    addStory: async (_: any, args: TStory, context: TContext) => {
-      const user = auth(context);
+    addStory: async (_: any, args: TStory) => {
       try {
         const newStroy = new StoryModel({
           ...args,
-          user: user.id,
+          todo: args.todo,
         });
 
         const res = await newStroy.save();
