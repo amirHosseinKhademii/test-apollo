@@ -12,10 +12,6 @@ const httpLink = new BatchHttpLink({
   batchInterval: 20,
 });
 
-// const httpLink = createHttpLink({
-//   uri: 'http://localhost:5001',
-// })
-
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
@@ -28,12 +24,12 @@ const authLink = setContext((_, { headers }) => {
 export const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          // users: offsetLimitPagination(),
-        },
-      },
-    },
+    // typePolicies: {
+    //   Query: {
+    //     fields: {
+    //       users: offsetLimitPagination(),
+    //     },
+    //   },
+    // },
   }),
 });

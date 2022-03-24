@@ -43,25 +43,6 @@ const UserTodos = ({ userId }: { userId: string }) => {
 };
 
 const Users = () => {
-  // const { data: fi, loading: fiLoa } = useQuery(USER_TODOS, {
-  //   variables: { userId: "622faab19b522ad913d7c09b" },
-  // });
-  // const { data: se, loading: seLoa } = useQuery(USER_TODOS, {
-  //   variables: { userId: "622faaba9b522ad913d7c09f" },
-  // });
-  // const { data: th, loading: thLoa } = useQuery(USER_TODOS, {
-  //   variables: { userId: "622faac09b522ad913d7c0a3" },
-  // });
-  // const { data: fo, loading: foLoa } = useQuery(USER_TODOS, {
-  //   variables: { userId: "6233202801de9c9aab91a7f2" },
-  // });
-  // const { data: fif, loading: fifLoa } = useQuery(USER_TODOS, {
-  //   variables: { userId: "6233224801de9c9aab91a825" },
-  // });
-
-  // console.log({ fi, se, th, fo, fif, fiLoa, seLoa, thLoa, foLoa, fifLoa });
-
-  // return <div></div>;
   const { data, fetchMore, networkStatus } = useQuery(USERS, {
     notifyOnNetworkStatusChange: true,
     variables: { limit: 3, offset: 0 },
