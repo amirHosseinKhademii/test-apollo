@@ -1,5 +1,6 @@
-import { render } from 'react-dom'
-import { Boot } from './boot'
-import '../styles/index.css'
+import { createRoot } from "react-dom/client";
+import { Boot } from "./boot";
+import "../styles/index.css";
+const root = createRoot(document.getElementById("app") as HTMLElement);
 
-render(<Boot />, document.getElementById('app'))
+root.render(<Boot />);
