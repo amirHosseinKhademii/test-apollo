@@ -1,14 +1,13 @@
 import { useQuery, useSubscription } from "@apollo/client";
 import { useState } from "react";
 import {
-  EVENT_SUBSCRIPTION,
+  EVENT_QUERY,
   FEED_QUERY,
-  MARKET_SUBSCRIPTION,
-  OUTCOME_SUBSCRIPTION,
+  MARKET_QUERY,
+  OUTCOME_QUERY,
 } from "services/story";
-import FeedV2 from "./componentVersion2";
 
-const Feed = () => {
+const FeedV2 = () => {
   const { data, loading } = useQuery(FEED_QUERY);
 
   if (loading && data === undefined) return <div>Loading...</div>;
@@ -20,7 +19,7 @@ const Feed = () => {
           Post: {p.id}
           <div>
             {p.events.map((e: any) => (
-              <FeedEvent eventId={e.id} key={e.id} />
+              <FeedEventV2 eventId={e.id} key={e.id} />
             ))}
           </div>
         </div>
@@ -29,8 +28,8 @@ const Feed = () => {
   );
 };
 
-const FeedEvent = ({ eventId }: { eventId: any }) => {
-  const { data, loading } = useSubscription(EVENT_SUBSCRIPTION, {
+const FeedEventV2 = ({ eventId }: { eventId: any }) => {
+  const { data, loading } = useQuery(EVENT_QUERY, {
     variables: { id: eventId },
   });
   const [showMarket, setShowMarket] = useState(true);
@@ -49,7 +48,7 @@ const FeedEvent = ({ eventId }: { eventId: any }) => {
         Markets:
         {feedEvent.markets.map((m: any) => (
           <div key={m.id}>
-            {showMarket ? <FeedMarket marketId={m.id} key={m.id} /> : null}
+            {showMarket ? <FeedMarketV2 marketId={m.id} key={m.id} /> : null}
           </div>
         ))}
       </div>
@@ -57,8 +56,8 @@ const FeedEvent = ({ eventId }: { eventId: any }) => {
   );
 };
 
-const FeedMarket = ({ marketId }: { marketId: any }) => {
-  const { data, loading } = useSubscription(MARKET_SUBSCRIPTION, {
+const FeedMarketV2 = ({ marketId }: { marketId: any }) => {
+  const { data, loading } = useQuery(MARKET_QUERY, {
     variables: { id: marketId },
   });
 
@@ -73,16 +72,17 @@ const FeedMarket = ({ marketId }: { marketId: any }) => {
       <div>
         Markets:{" "}
         {market.outcomes.map((o: any) => (
-          <FeedOutcome outcomeId={o.id} key={o.id} />
+          <FeedOutcomeV2 outcomeId={o.id} key={o.id} />
         ))}
       </div>
     </div>
   );
 };
 
-const FeedOutcome = ({ outcomeId }: { outcomeId: any }) => {
-  const { data, loading } = useSubscription(OUTCOME_SUBSCRIPTION, {
+const FeedOutcomeV2 = ({ outcomeId }: { outcomeId: any }) => {
+  const { data, loading } = useQuery(OUTCOME_QUERY, {
     variables: { id: outcomeId },
+    pollInterval: 10000,
   });
 
   if (loading && data === undefined) return <div>Loading...</div>;
@@ -97,15 +97,4 @@ const FeedOutcome = ({ outcomeId }: { outcomeId: any }) => {
   );
 };
 
-const View = () => {
-  return (
-    <div className="w-full mx-auto  flex flex-col space-y-4 items-center px-2">
-      <div className="grid grid-cols-2 gap-4">
-        {/* <Feed /> */}
-        <FeedV2 />
-      </div>
-    </div>
-  );
-};
-
-export default View;
+export default FeedV2;
